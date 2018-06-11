@@ -1,0 +1,27 @@
+[package]
+name = "serde-versions"
+description = "Utility macro that makes versioning your serde structures as easy as ... serde"
+version = "0.0.0-alpha0"
+
+authors = ["Katharina Fey <kookie@spacekookie.de>"]
+license = "MIT/X11 OR Apache-2.0"
+documentation = "https://docs.rs/serde-versions"
+repository = "https://github.com/spacekookie/serde-versions"
+readme = "README.md"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = { version = "1.0", optional = true }
+syn = { version = "0.14", features = ["extra-traits", "full", "fold", "visit", "visit-mut"] }
+quote = "*"
+
+[features]
+sj = ["serde_json"]
+
+[[example]]
+name = "simple"
+required-features = ["sj"]
