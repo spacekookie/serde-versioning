@@ -3,7 +3,6 @@
 #![feature(proc_macro, proc_macro_lib, iterator_flatten, attr_literals)]
 #![allow(unused_imports, unused_variables)]
 
-
 extern crate proc_macro;
 
 #[macro_use]
@@ -14,17 +13,27 @@ extern crate quote;
 
 use proc_macro::TokenStream;
 use quote::ToTokens;
-use std::collections::HashSet as Set;
-use std::str::FromStr;
+use std::collections::{HashMap, HashSet as Set};
+use std::sync::{Arc, Mutex};
 
 use syn::DeriveInput;
 
-#[proc_macro_derive(Versioning,attributes(version))]
-pub fn versioning(input: TokenStream) -> TokenStream {
-    println!("{:#?}", syn::parse::<DeriveInput>(input.clone()).unwrap());
+/// Describes the "lifetime" of a field in an API struct
+struct VersionSpan {
+    start: String,
+    stop: String,
+}
 
+static mut attributes: Option<Arc<Mutex<HashMap<String, VersionSpan>>>> = None;
 
-    let tokens = quote! {};
+// #[proc_macro_attribute]
+// pub fn versioning(args: TokenStream, input: TokenStream) -> TokenStream {
+//     println!("Running the main versioning thingy");
+//     input
+// }
 
-    tokens.into()
+#[proc_macro_attribute]
+pub fn version(args: TokenStream, input: TokenStream) -> TokenStream {
+    println!("Running a version command");
+    input
 }
